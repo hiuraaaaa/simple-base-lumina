@@ -1,10 +1,10 @@
-global.nameBot = 'Simple Base V2'
-global.owner = ['6281239075413']
-global.ownerName = 'Kyyn'
-global.dev = "KyynXzz"
+global.nameBot = 'LuminaV2'
+global.owner = ['62882006639544']
+global.ownerName = 'Xena'
+global.dev = "Xena"
 global.prefix = '.'
 global.version = '1.0.0'
-global.footer = '© Created by KyynXz'
+global.footer = '© Created by Xena'
 global.sessionName = 'session'
 global.thumb = 'https://c.termai.cc/i129/y3Fx8T.jpg'
-global.customPairing = 'KYYNXYZN' // Custom pairing code, minimal 8 karakter
+global.customPairing = 'LUMINAAA' // Custom pairing code, minimal 8 karakter
