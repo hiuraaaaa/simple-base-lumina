@@ -4,36 +4,23 @@ let handler = async (conn, m) => {
 *Hello, ${m.pushName || 'User'} 👋*
 
 Terima kasih telah menggunakan base bot ini.
-Berikut informasi developer, website, dan project 
+Berikut informasi developer dan website
 
 ━━━━━━━━━━━━━━━
 *INFORMASI DEVELOPER*
 
-• *Nama :* ${global.dev || 'KyynXzz'}
-• *TikTok :* @xyyzn_505
-• *Telegram :* @kyynxz31
-• *WhatsApp :* 6281239075413
-• *GitHub :* github.com/RIFKIror
-• *Channel* : https://whatsapp.com/channel/0029VbC2uly2f3EEsyAGna1d
+• *Nama :* ${global.dev || 'Xena'}
+• *WhatsApp :* 62882006639544
+• *GitHub :* github.com/hiuraaaaa
 ━━━━━━━━━━━━━━━
 *INFORMASI WEBSITE*
 
-• *Website :* kyynns.vercel.app
-• *Rest API :* api.lexcode.biz.id
-• *Snippet :* www.lexcode.my.id
-━━━━━━━━━━━━━━━
-*INFORMASI PROJECT*
-
-• *Base V1 :*
-github.com/RIFKIror/Simple-Base-Bot-WhatsApp
-
-• *Base Telegram :*
-github.com/RIFKIror/LexBot-Tele
-
-• *Snippet Source :*
-github.com/RIFKIror/LexCode-Simple-Snippet
+• *Website :* xena.eu.cc
+• *Rest API :* api.lumina.web.id
+• *Snippet :* gits.lumina.web.id
 ━━━━━━━━━━━━━━━
 © ${global.nameBot}`.trim()
+
   await conn.sendMessage(
     m.chat,
     {
@@ -44,7 +31,7 @@ github.com/RIFKIror/LexCode-Simple-Snippet
         forwardedNewsletterMessageInfo: {
           newsletterName: 'Developer Information',
           newsletterJid:
-            '120363420019948650@newsletter'
+            '1203634200199486501@newsletter'
         }
       }
     },
