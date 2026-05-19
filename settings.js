@@ -6,5 +6,5 @@ global.prefix = '.'
 global.version = '1.0.0'
 global.footer = '© Created by Xena'
 global.sessionName = 'session'
-global.thumb = 'https://c.termai.cc/i129/y3Fx8T.jpg'
+global.thumb = 'https://c.termai.cc/i120/nVl.png'
 global.customPairing = 'LUMINAAA' // Custom pairing code, minimal 8 karakter
