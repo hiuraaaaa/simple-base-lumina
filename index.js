@@ -71,6 +71,7 @@ const connectToWhatsApp = async () => {
 
     if (!msg.message) return
     if (msg.key && msg.key.remoteJid === 'status@broadcast') return
+    if (msg.key.fromMe) return
 
     const m = serialize(sock, msg)
 
@@ -82,59 +83,74 @@ const connectToWhatsApp = async () => {
 
     const prefix = global.prefix
 
+    const ctx = {
+      conn: sock,
+      args: body.trim().split(/ +/).slice(1),
+      command: '',
+      prefix,
+      text: ''
+    }
+
+    // ==============================
+    // HANDLER BEFORE
+    // Jalankan plugin yang punya .before sebelum command dicek
+    // ==============================
+    for (const name in global.plugins) {
+      const plugin = global.plugins[name]
+      if (typeof plugin.before !== 'function') continue
+      try {
+        const stop = await plugin.before(sock, m, ctx)
+        if (stop) return // kalau before return true, stop processing
+      } catch (e) {
+        console.log(`❌ Before Error [${name}]:`, e)
+      }
+    }
+
+    // ==============================
+    // COMMAND HANDLER
+    // Hanya jalan kalau pesan diawali prefix
+    // ==============================
     if (!body.startsWith(prefix)) return
 
     const command = body.slice(prefix.length).trim().split(/ +/).shift().toLowerCase()
     const args = body.trim().split(/ +/).slice(1)
+    const text = args.join(' ')
 
-  for (const name in global.plugins) {
+    for (const name in global.plugins) {
+      const plugin = global.plugins[name]
 
-  const plugin = global.plugins[name]
+      if (!plugin.command) continue
 
-  if (!plugin.command) continue
+      const isCommand = Array.isArray(plugin.command)
+        ? plugin.command.some(cmd =>
+            cmd instanceof RegExp
+              ? cmd.test(command)
+              : cmd === command
+          )
+        : plugin.command instanceof RegExp
+          ? plugin.command.test(command)
+          : plugin.command === command
 
-  const isCommand = Array.isArray(plugin.command)
+      if (!isCommand) continue
 
-    ? plugin.command.some(cmd =>
-        cmd instanceof RegExp
-          ? cmd.test(command)
-          : cmd === command
-      )
-
-    : plugin.command instanceof RegExp
-
-      ? plugin.command.test(command)
-
-      : plugin.command === command
-
-  if (!isCommand) continue
-
-  try {
-
-    await plugin(sock, m, {
-      conn: sock,
-      args,
-      command,
-      prefix,
-      text: args.join(' ')
-    })
-
-  } catch (e) {
-
-    console.log(e)
-
-    await sock.sendMessage(
-      m.chat,
-      {
-        text: `Error Plugin:\n${e}`
-      },
-      {
-        quoted: m
-       }
-     )
-   }
-  }
-})
+      try {
+        await plugin(sock, m, {
+          conn: sock,
+          args,
+          command,
+          prefix,
+          text
+        })
+      } catch (e) {
+        console.log(e)
+        await sock.sendMessage(
+          m.chat,
+          { text: `Error Plugin:\n${e}` },
+          { quoted: m }
+        )
+      }
+    }
+  })
 
   sock.ev.on('connection.update', async (update) => {
     const { connection, lastDisconnect } = update
